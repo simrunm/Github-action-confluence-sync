@@ -5,6 +5,7 @@ from os.path import join
 import requests
 from markdown import markdown
 from mdx_gfm import GithubFlavoredMarkdownExtension
+from atlassian import confluence
 
 workspace = environ.get('GITHUB_WORKSPACE')
 if not workspace:
