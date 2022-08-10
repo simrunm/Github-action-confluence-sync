@@ -11,6 +11,8 @@ py-gfm = "*"
 [dev-packages]
 autopep8 = "*"
 mypy = "*"
+atlassian-python-api="*"
+beautifulsoup4="*"
 
 [requires]
 python_version = "3.9"
