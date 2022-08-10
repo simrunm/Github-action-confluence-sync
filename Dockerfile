@@ -5,8 +5,8 @@ RUN pip install pipenv
 COPY ./Pipfile* ./
 RUN pipenv lock
 RUN pipenv install --system --deploy
-# RUN pip install atlassian-python-api
-# RUN pip install beautifulsoup4
+RUN pip install atlassian-python-api
+RUN pip install beautifulsoup4
 WORKDIR /action
 COPY ./src .
 
