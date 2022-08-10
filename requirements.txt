@@ -1,0 +1,5 @@
+atlassian==0.0.0
+atlassian_python_api==3.26.0
+beautifulsoup4==4.11.1
+Markdown==3.3.6
+py_gfm==1.0.2
