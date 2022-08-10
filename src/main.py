@@ -48,7 +48,7 @@ html = markdown(md, extensions=[GithubFlavoredMarkdownExtension()])
 #         }
 #     }
 # }
-confluence.create_page(space= "Engineering", title="Release Notes", body=html, parent_id=envs['parent_id'])
+confluence.create_page(space="ENGINEERING", title="Release Notes", body=html, parent_id=envs['parent_id'])
 
 # updated = requests.put(url, json=content, auth=(
 #     envs['user'], envs['token'])).json()
