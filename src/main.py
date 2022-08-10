@@ -20,12 +20,14 @@ for key in ['from', 'parent_id', 'cloud', 'user', 'token']:
     envs[key] = value
 
 
-confluence = Confluence(
-    url='https://picklerobot.atlassian.net',
-    username="simrun",
-    password=envs['token'],
-    cloud=True)
-
+try:
+    confluence = Confluence(
+        url='https://picklerobot.atlassian.net',
+        username="simrun",
+        password=envs['token'],
+        cloud=True)
+except:
+    print("Connection did not work")
 with open(join(workspace, envs['from'])) as f:
     md = f.read()
 
@@ -46,7 +48,7 @@ html = markdown(md, extensions=[GithubFlavoredMarkdownExtension()])
 #         }
 #     }
 # }
-confluence.create_page("simrun", "Release Notes", html, parent_id=envs['parent_id'], type='page', representation='storage', editor='v2')
+confluence.create_page("Engineering", "Release Notes", html, parent_id=envs['parent_id'], type='page', representation='storage', editor='v2')
 
 # updated = requests.put(url, json=content, auth=(
 #     envs['user'], envs['token'])).json()
