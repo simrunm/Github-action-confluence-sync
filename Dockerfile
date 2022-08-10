@@ -4,7 +4,7 @@ WORKDIR /tmp
 # RUN pip-compile -v requirements.in
 RUN pip install --upgrade -r requirements.txt
 # RUN pip install pipenv
-# COPY ./Pipfile* ./
+COPY ./requirements.txt ./
 # RUN pipenv lock
 # RUN pipenv install --system --deploy
 # RUN pip install atlassian-python-api
