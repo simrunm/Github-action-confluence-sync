@@ -20,7 +20,11 @@ for key in ['from', 'parent_id', 'cloud', 'user', 'token']:
     envs[key] = value
 
 
-confluence = Confluence(url="http://localhost:8090", username="simrun", password=envs['token'])
+confluence = Confluence(
+    url='https://picklerobot.atlassian.net',
+    username="simrun",
+    password=envs['token'],
+    cloud=True)
 
 with open(join(workspace, envs['from'])) as f:
     md = f.read()
