@@ -7,6 +7,8 @@ from markdown import markdown
 from mdx_gfm import GithubFlavoredMarkdownExtension
 from atlassian import Confluence
 
+
+
 workspace = environ.get('GITHUB_WORKSPACE')
 if not workspace:
     raise Exception('No workspace is set')
@@ -48,7 +50,8 @@ html = markdown(md, extensions=[GithubFlavoredMarkdownExtension()])
 #         }
 #     }
 # }
-confluence.create_page(space="ENGINEERING", title="Release Notes", body=html, parent_id=envs['parent_id'])
+space_key = confluence.get_page_space(envs['parent_id'])
+confluence.create_page(space=space_key, title="Release Notes", body=html, parent_id=envs['parent_id'])
 
 # updated = requests.put(url, json=content, auth=(
 #     envs['user'], envs['token'])).json()
