@@ -23,7 +23,7 @@ for key in ['from', 'parent_id', 'cloud', 'user', 'token']:
 try:
     confluence = Confluence(
         url='https://picklerobot.atlassian.net',
-        username="simrun",
+        username="simrun@picklerobot.com",
         password=envs['token'],
         cloud=True)
 except:
@@ -48,7 +48,7 @@ html = markdown(md, extensions=[GithubFlavoredMarkdownExtension()])
 #         }
 #     }
 # }
-confluence.create_page("Engineering", "Release Notes", html, parent_id=envs['parent_id'], type='page', representation='storage', editor='v2')
+confluence.create_page(space= "Engineering", title="Release Notes", body=html, parent_id=envs['parent_id'], type='page')
 
 # updated = requests.put(url, json=content, auth=(
 #     envs['user'], envs['token'])).json()
