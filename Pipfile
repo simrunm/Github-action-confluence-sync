@@ -11,7 +11,6 @@ py-gfm = "*"
 [dev-packages]
 autopep8 = "*"
 mypy = "*"
-atlassian = "*"
 
 [requires]
 python_version = "3.9"
