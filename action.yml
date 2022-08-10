@@ -9,10 +9,7 @@ inputs:
     description: 'Path to the markdown file. Relative to root of repository'
     required: true
   parent_id:
-    description: 'The parent ID in confluence'
-    required: true
-  cloud:
-    description: 'Atlassian Cloud ID'
+    description: 'ID of parent page in confluence'
     required: true
   user:
     description: 'Username of the token user'

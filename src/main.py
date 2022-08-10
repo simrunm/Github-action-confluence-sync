@@ -1,59 +1,40 @@
-from typing import Dict, List
-from os import listdir, environ
+from typing import Dict
+from os import environ
 from os.path import join
-
-import requests
 from markdown import markdown
 from mdx_gfm import GithubFlavoredMarkdownExtension
 from atlassian import Confluence
+from bs4 import BeautifulSoup
 
-
-
+# Get info from Github action
 workspace = environ.get('GITHUB_WORKSPACE')
 if not workspace:
     raise Exception('No workspace is set')
-
-
+    
 envs: Dict[str, str] = {}
-for key in ['from', 'parent_id', 'cloud', 'user', 'token']:
+for key in ['from', 'parent_id', 'user', 'token']:
     value = environ.get(f'INPUT_{key.upper()}')
     if not value:
         raise Exception(f'Missing value for {key}')
     envs[key] = value
 
+# Connect to confluence
+confluence = Confluence(
+    url='https://picklerobot.atlassian.net',
+    username=envs['user'], 
+    password=envs['token'],
+    cloud=True)
 
-try:
-    confluence = Confluence(
-        url='https://picklerobot.atlassian.net',
-        username="simrun@picklerobot.com",
-        password=envs['token'],
-        cloud=True)
-except:
-    print("Connection did not work")
+# Read Markdown file
 with open(join(workspace, envs['from'])) as f:
     md = f.read()
 
-# url = f"https://{envs['cloud']}.atlassian.net/wiki/rest/api/content/{envs['to']}"
-
-# current = requests.get(url, auth=(envs['user'], envs['token'])).json()
-
+# Convert to html and split title and body
 html = markdown(md, extensions=[GithubFlavoredMarkdownExtension()])
-# content = {
-#     'id': current['id'],
-#     'type': current['type'],
-#     'title': current['title'],
-#     'version': {'number': current['version']['number'] + 1},
-#     'body': {
-#         'editor': {
-#             'value': html,
-#             'representation': 'editor'
-#         }
-#     }
-# }
-space_key = confluence.get_page_space(envs['parent_id'])
-confluence.create_page(space=space_key, title="Release Notes", body=html, parent_id=envs['parent_id'])
+Soup = BeautifulSoup(html, features="html.parser")
+title = f'Release Notes {Soup.find_all("h2")[0].text.strip()}'
+body = "\n".join(html.split('\n')[1:])
 
-# updated = requests.put(url, json=content, auth=(
-#     envs['user'], envs['token'])).json()
-# link = updated['_links']['base'] + updated['_links']['webui']
-# print(f'Uploaded content successfully to page {link}')
+# Get space id and create page
+space_key = confluence.get_page_space(envs['parent_id'])
+confluence.create_page(space=space_key, title=title, body=body, parent_id=envs['parent_id'])
