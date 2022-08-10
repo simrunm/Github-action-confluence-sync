@@ -8,8 +8,8 @@ inputs:
   from: 
     description: 'Path to the markdown file. Relative to root of repository'
     required: true
-  to:
-    description: 'The page ID in confluence'
+  parent_id:
+    description: 'The parent ID in confluence'
     required: true
   cloud:
     description: 'Atlassian Cloud ID'
